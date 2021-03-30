@@ -1,0 +1,152 @@
+{
+  "origin": "06b880cb34ddf0161701f549d49403ab -",
+  "innernodes": {},
+  "nodes": {
+    "1426755e-4f05-4cb8-9ec7-d4baa290b926": {
+      "_id": "1426755e-4f05-4cb8-9ec7-d4baa290b926",
+      "mobileMessage": "Approve TruU Mobile Notification",
+      "waitingTimeout": 60,
+      "rememberMeMaxLife": 30,
+      "pollPeriod": 2,
+      "exitable": false,
+      "desktopMessage": "Scan QR with TruU Mobile App",
+      "androidDeepLinkUrl": "truu://",
+      "iosDeepLinkUrl": "https://app.mobilelink.truu.ai",
+      "exitMessage": "Cancel",
+      "_type": {
+        "_id": "TruuQRCodeNode",
+        "name": "TruU QR Code Node",
+        "collection": true
+      }
+    },
+    "1ea68e59-61e2-42cb-a055-7e3b562b37d3": {
+      "_id": "1ea68e59-61e2-42cb-a055-7e3b562b37d3",
+      "defaultChoice": "QR Code",
+      "choices": [
+        "QR Code",
+        "FIDO Token"
+      ],
+      "prompt": "Please Select Your Authentication Method",
+      "_type": {
+        "_id": "ChoiceCollectorNode",
+        "name": "Choice Collector",
+        "collection": true
+      }
+    },
+    "2d4b1e4f-6f1c-4216-9925-7e33385e808d": {
+      "_id": "2d4b1e4f-6f1c-4216-9925-7e33385e808d",
+      "waitingTimeout": 60,
+      "pollPeriod": 2,
+      "waitingMessage": "Check mobile device to approve sign-in",
+      "_type": {
+        "_id": "TruuAuthNode",
+        "name": "TruU Authentication Node",
+        "collection": true
+      }
+    },
+    "41c3c3ae-8824-4a44-aa70-8e980188156f": {
+      "_id": "41c3c3ae-8824-4a44-aa70-8e980188156f",
+      "clientSecret": "",
+      "clientId": "",
+      "identityTimeout": 60,
+      "url": "",
+      "_type": {
+        "_id": "TruuIdentityRequestNode",
+        "name": "TruU Identity Request Node",
+        "collection": true
+      }
+    },
+    "472f2eec-72cd-424a-9647-040e53f7a726": {
+      "_id": "472f2eec-72cd-424a-9647-040e53f7a726",
+      "maxLife": 30,
+      "_type": {
+        "_id": "PersistentUsernameCollectorNode",
+        "name": "TruU Username Collector Node with Cookie Option",
+        "collection": true
+      }
+    },
+    "5475a89c-245f-4344-b2a5-1459ee671cda": {
+      "_id": "5475a89c-245f-4344-b2a5-1459ee671cda",
+      "waitingMessage": "Use your FIDO key to complete authentication",
+      "relyingParty": "",
+      "_type": {
+        "_id": "TruuWebAuthnAuthenticateNode",
+        "name": "TruU WebAuthn Node",
+        "collection": true
+      }
+    },
+    "f4d11043-fab2-4d5e-9445-fc117d92ecbd": {
+      "_id": "f4d11043-fab2-4d5e-9445-fc117d92ecbd",
+      "_type": {
+        "_id": "TruuDataStoreDecisionNode",
+        "name": "TruU Data Store Decision Node",
+        "collection": true
+      }
+    }
+  },
+  "scripts": {},
+  "tree": {
+    "_id": "TruuIdentity",
+    "nodes": {
+      "41c3c3ae-8824-4a44-aa70-8e980188156f": {
+        "displayName": "TruU Identity Request Node",
+        "nodeType": "TruuIdentityRequestNode",
+        "connections": {
+          "HAS_USERNAME": "2d4b1e4f-6f1c-4216-9925-7e33385e808d",
+          "NO_USERNAME": "1ea68e59-61e2-42cb-a055-7e3b562b37d3"
+        }
+      },
+      "2d4b1e4f-6f1c-4216-9925-7e33385e808d": {
+        "displayName": "TruU Authentication Node",
+        "nodeType": "TruuAuthNode",
+        "connections": {
+          "WAITING": "2d4b1e4f-6f1c-4216-9925-7e33385e808d",
+          "FIDO2": "5475a89c-245f-4344-b2a5-1459ee671cda",
+          "FAILURE": "e301438c-0bd0-429c-ab0c-66126501069a",
+          "SUCCESS": "f4d11043-fab2-4d5e-9445-fc117d92ecbd"
+        }
+      },
+      "1426755e-4f05-4cb8-9ec7-d4baa290b926": {
+        "displayName": "TruU QR Code Node",
+        "nodeType": "TruuQRCodeNode",
+        "connections": {
+          "FAILURE": "e301438c-0bd0-429c-ab0c-66126501069a",
+          "WAITING": "1426755e-4f05-4cb8-9ec7-d4baa290b926",
+          "SUCCESS": "f4d11043-fab2-4d5e-9445-fc117d92ecbd"
+        }
+      },
+      "472f2eec-72cd-424a-9647-040e53f7a726": {
+        "displayName": "TruU Username Collector Node with Cookie Option",
+        "nodeType": "PersistentUsernameCollectorNode",
+        "connections": {
+          "outcome": "5475a89c-245f-4344-b2a5-1459ee671cda"
+        }
+      },
+      "5475a89c-245f-4344-b2a5-1459ee671cda": {
+        "displayName": "TruU WebAuthn Node",
+        "nodeType": "TruuWebAuthnAuthenticateNode",
+        "connections": {
+          "SUCCESS": "f4d11043-fab2-4d5e-9445-fc117d92ecbd",
+          "FAILURE": "e301438c-0bd0-429c-ab0c-66126501069a"
+        }
+      },
+      "f4d11043-fab2-4d5e-9445-fc117d92ecbd": {
+        "displayName": "TruU Data Store Decision Node",
+        "nodeType": "TruuDataStoreDecisionNode",
+        "connections": {
+          "true": "70e691a5-1e33-4ac3-a356-e7b6d60d92e0",
+          "false": "e301438c-0bd0-429c-ab0c-66126501069a"
+        }
+      },
+      "1ea68e59-61e2-42cb-a055-7e3b562b37d3": {
+        "displayName": "Choice Collector",
+        "nodeType": "ChoiceCollectorNode",
+        "connections": {
+          "FIDO Token": "472f2eec-72cd-424a-9647-040e53f7a726",
+          "QR Code": "1426755e-4f05-4cb8-9ec7-d4baa290b926"
+        }
+      }
+    },
+    "entryNodeId": "41c3c3ae-8824-4a44-aa70-8e980188156f"
+  }
+}
