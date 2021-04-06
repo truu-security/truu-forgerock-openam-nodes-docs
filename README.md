@@ -1,4 +1,4 @@
-![logo](docs/img/truu-logo.png)
+![logo](docs/img/truu-logo-lg.png)
 # TruU ForgeRock Plugin Setup Guide
 
 ## Introduction
