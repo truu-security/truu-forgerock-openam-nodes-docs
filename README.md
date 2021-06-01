@@ -1,6 +1,11 @@
 ![logo](docs/img/truu-logo-lg.png)
 # TruU ForgeRock Plugin Setup Guide
 
+## Solution Overview
+This [1-minute video](https://vimeo.com/540307544) shows how users can enjoy a secure, passwordless
+login experience to workstations and web applications when customers deploy TruU with ForgeRock
+Access Management.
+
 ## Introduction
 This deployment guide details how to configure the TruU ForgeRock Plugin with ForgeRock for
 biometric based identity verification to federated resources. The TruU ForgeRock Plugin
